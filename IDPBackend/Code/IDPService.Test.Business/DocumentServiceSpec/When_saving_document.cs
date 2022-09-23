@@ -10,15 +10,15 @@ namespace IDPService.Test.Business.DocumentServiceSpec
 {
     public class When_saving_document : UsingDocumentServiceSpec
     {
-        private Document _result;
+        private DocumentEntity _result;
 
-        private Document _document;
+        private DocumentEntity _document;
 
         public override void Context()
         {
             base.Context();
 
-            _document = new Document
+            _document = new DocumentEntity
             {
                 DocId = "DocId",
                 ContentType = "ContentType",
@@ -46,7 +46,7 @@ namespace IDPService.Test.Business.DocumentServiceSpec
         [Test]
         public void Appropriate_result_is_returned()
         {
-            _result.ShouldBeOfType<Document>();
+            _result.ShouldBeOfType<DocumentEntity>();
 
             _result.ShouldBe(_document);
         }

@@ -11,15 +11,15 @@ namespace IDPService.Test.Api.DocumentControllerSpec
 {
     public class When_saving_document : UsingDocumentControllerSpec
     {
-        private ActionResult<Document> _result;
+        private ActionResult<DocumentEntity> _result;
 
-        private Document _document;
+        private DocumentEntity _document;
 
         public override void Context()
         {
             base.Context();
 
-            _document = new Document
+            _document = new DocumentEntity
             {
                 DocId = "DocId",
                 ContentType = "ContentType",
@@ -51,9 +51,9 @@ namespace IDPService.Test.Api.DocumentControllerSpec
 
             var resultListObject = (_result.Result as OkObjectResult).Value;
 
-            resultListObject.ShouldBeOfType<Document>();
+            resultListObject.ShouldBeOfType<DocumentEntity>();
 
-            var resultList = (Document)resultListObject;
+            var resultList = (DocumentEntity)resultListObject;
 
             resultList.ShouldBe(_document);
         }

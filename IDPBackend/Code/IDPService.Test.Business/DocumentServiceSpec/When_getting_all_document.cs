@@ -10,16 +10,16 @@ namespace IDPService.Test.Business.DocumentServiceSpec
 {
     public class When_getting_all_document : UsingDocumentServiceSpec
     {
-        private IEnumerable<Document> _result;
+        private IEnumerable<DocumentEntity> _result;
 
-        private IEnumerable<Document> _all_document;
-        private Document _document;
+        private IEnumerable<DocumentEntity> _all_document;
+        private DocumentEntity _document;
 
         public override void Context()
         {
             base.Context();
 
-            _document = new Document{
+            _document = new DocumentEntity{
                 DocId = "DocId",
                 ContentType = "ContentType",
                 FileName = "FileName",
@@ -29,7 +29,7 @@ namespace IDPService.Test.Business.DocumentServiceSpec
                 CategorySetId = "CategorySetId"
             };
 
-            _all_document = new List<Document> { _document};
+            _all_document = new List<DocumentEntity> { _document};
             _documentRepository.GetAll().Returns(_all_document);
         }
         public override void Because()
@@ -47,9 +47,9 @@ namespace IDPService.Test.Business.DocumentServiceSpec
         [Test]
         public void Appropriate_result_is_returned()
         {
-            _result.ShouldBeOfType<List<Document>>();
+            _result.ShouldBeOfType<List<DocumentEntity>>();
 
-            List<Document> resultList = _result as List<Document>;
+            List<DocumentEntity> resultList = _result as List<DocumentEntity>;
 
             resultList.Count.ShouldBe(1);
 
