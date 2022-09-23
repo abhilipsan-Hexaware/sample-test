@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IDPService.Data.Interfaces
 {
-    public interface IDocumentRepository : IGetAll<Document>, ISave<Document>, IUpdate<Document, string>, IDelete<string>
+    public interface IDocumentRepository : IGetAll<DocumentEntity>, ISave<DocumentEntity>, IUpdate<DocumentEntity, string>, IDelete<string>
     {
     }
 }

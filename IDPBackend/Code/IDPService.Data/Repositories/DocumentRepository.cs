@@ -12,30 +12,30 @@ namespace IDPService.Data.Repositories
     public class DocumentRepository : IDocumentRepository
     {
         private IGateway _gateway;
-        private string _collectionName = "Document";
+        private string _collectionName = "DocumentRepo";
 
         public DocumentRepository(IGateway gateway)
         {
             _gateway = gateway;
         }
-        public IEnumerable<Document> GetAll()
+        public IEnumerable<DocumentEntity> GetAll()
         {
-            var result = _gateway.GetMongoDB().GetCollection<Document>(_collectionName)
+            var result = _gateway.GetMongoDB().GetCollection<DocumentEntity>(_collectionName)
                             .Find(new BsonDocument())
                             .ToList();
             return result;
         }
 
-        public bool Save(Document entity)
+        public bool Save(DocumentEntity entity)
         {
-            _gateway.GetMongoDB().GetCollection<Document>(_collectionName)
+            _gateway.GetMongoDB().GetCollection<DocumentEntity>(_collectionName)
                 .InsertOne(entity);
             return true;
         }
 
-        public Document Update(string id, Document entity)
+        public DocumentEntity Update(string id, DocumentEntity entity)
         {
-            var update = Builders<Document>.Update
+            var update = Builders<DocumentEntity>.Update
                 .Set(e => e.DocId, entity.DocId )
                 .Set(e => e.ContentType, entity.ContentType )
                 .Set(e => e.FileName, entity.FileName )
@@ -44,14 +44,14 @@ namespace IDPService.Data.Repositories
                 .Set(e => e.FilePath, entity.FilePath )
                 .Set(e => e.CategorySetId, entity.CategorySetId );
 
-            var result = _gateway.GetMongoDB().GetCollection<Document>(_collectionName)
+            var result = _gateway.GetMongoDB().GetCollection<DocumentEntity>(_collectionName)
                 .FindOneAndUpdate(e => e.Id == id, update);
             return result;
         }
 
         public bool Delete(string id)
         {
-            var result = _gateway.GetMongoDB().GetCollection<Document>(_collectionName)
+            var result = _gateway.GetMongoDB().GetCollection<DocumentEntity>(_collectionName)
                          .DeleteOne(e => e.Id == id);
             return result.IsAcknowledged;
         }

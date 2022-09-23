@@ -13,6 +13,7 @@ namespace IDPService.Data.Repositories
         }
         public IMongoDatabase GetMongoDB()
         {
+            var confs = _configuration.GetSection("MongoDb").GetChildren();
             string connectionString = _configuration.GetSection("MongoDb")["connectionString"];
             string database = _configuration.GetSection("MongoDb")["Database"];
             MongoClient client = new MongoClient(connectionString);

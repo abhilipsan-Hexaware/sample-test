@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using IDPService.Business.Interfaces;
 using IDPService.Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace IDPService.Api.Controllers
 {
@@ -17,20 +19,20 @@ namespace IDPService.Api.Controllers
 
         // GET: api/Document
         [HttpGet]
-        public ActionResult<IEnumerable<Document>> Get()
+        public ActionResult<IEnumerable<DocumentEntity>> Get()
         {
             return Ok(_DocumentService.GetAll());
         }
 
         [HttpPost]
-        public ActionResult<Document> Save(Document Document)
+        public ActionResult<DocumentEntity> Save(DocumentEntity Document)
         {
             return Ok(_DocumentService.Save(Document));
 
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Document> Update([FromRoute] string id, Document Document)
+        public ActionResult<DocumentEntity> Update([FromRoute] string id, DocumentEntity Document)
         {
             return Ok(_DocumentService.Update(id, Document));
 
@@ -43,6 +45,12 @@ namespace IDPService.Api.Controllers
 
         }
 
-
+        [HttpPost("UploadInvoices")]
+        public ActionResult<bool> UploadInvoices([FromForm] List<IFormFile> files, [FromForm] string createdBy, [FromForm] string pageRange)
+        {
+            Console.Write(files[0].FileName);
+            _DocumentService.UploadInvoiceFiles(files, createdBy, pageRange);
+            return Ok(true);
+        }
     }
 }
