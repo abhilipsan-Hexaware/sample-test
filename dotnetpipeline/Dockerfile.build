@@ -1,0 +1,22 @@
+FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
+WORKDIR /src
+COPY ["Code/dotnetpipeline.Api/dotnetpipeline.Api.csproj", "Code/dotnetpipeline.Api/"]
+COPY ["Code/dotnetpipeline.BusinessEntities/dotnetpipeline.BusinessEntities.csproj", "Code/dotnetpipeline.BusinessEntities/"]
+COPY ["Code/dotnetpipeline.BusinessServices/dotnetpipeline.BusinessServices.csproj", "Code/dotnetpipeline.BusinessServices/"]
+COPY ["Code/dotnetpipeline.Data/dotnetpipeline.Data.csproj", "Code/dotnetpipeline.Data/"]
+COPY ["Code/dotnetpipeline.Contracts/dotnetpipeline.Contracts.csproj", "Code/dotnetpipeline.Contracts/"]
+COPY ["Code/dotnetpipeline.Test.Api/dotnetpipeline.Test.Api.csproj", "Code/dotnetpipeline.Test.Api/"]
+COPY ["Code/dotnetpipeline.Test.Business/dotnetpipeline.Test.Business.csproj", "Code/dotnetpipeline.Test.Business/"]
+RUN dotnet restore "Code/dotnetpipeline.Api/dotnetpipeline.Api.csproj"
+COPY . .
+WORKDIR "/src/Code/dotnetpipeline.Api"
+RUN dotnet build "dotnetpipeline.Api.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "dotnetpipeline.Api.csproj" -c Release -o /app/publish
+
+WORKDIR /src
